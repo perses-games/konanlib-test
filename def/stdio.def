@@ -1,0 +1,3 @@
+headers = stdlib.h
+compilerOpts = -D_POSIX_SOURCE
+excludedFunctions =
