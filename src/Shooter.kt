@@ -12,9 +12,7 @@ import games.perses.sfml.time.Timer
 import gles2.GL_COLOR_BUFFER_BIT
 import gles2.glClear
 import gles2.glClearColor
-import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
-import kotlinx.cinterop.readValue
 import sfml.*
 
 fun main(args: Array<String>) {
@@ -53,7 +51,6 @@ fun main(args: Array<String>) {
 
                 glClearColor(0.5f, 0.5f, 0f, 0.1f)
                 glClear(GL_COLOR_BUFFER_BIT)
-
 
                 View.updateViewport()
                 for (sprite in sprites) {

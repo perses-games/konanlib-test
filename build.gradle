@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:0.3"
+        classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:0.3.3"
     }
 }
 
@@ -17,15 +17,19 @@ konanArtifacts {
     test {
         inputFiles project.fileTree('src')
 
-        library project.file('../konan-game/klib/sfml.klib')
-        library project.file('../konan-game/klib/gles2.klib')
-        library project.file('../konan-game/klib/math.klib')
-        library project.file('../konan-game/klib/stdio.klib')
-        library project.file('../konan-game/build/konan/bin/konanlib.klib')
+        //library project.file('../konan-game/klib/sfml.klib')
+        //library project.file('../konan-game/klib/gles2.klib')
+        //library project.file('../konan-game/klib/math.klib')
+        //library project.file('../konan-game/klib/stdio.klib')
+
+        // library('konanlib')
+        //nativeLibrary project.file('')
+
+        library project.file('konanlib')
 
         enableOptimization()
 
-        linkerOpts "-L/usr/lib/x86_64-linux-gnu -LCSFML-2.4-osx-clang/lib -lcsfml-graphics -lcsfml-audio -lcsfml-window -lcsfml-network -lcsfml-system -lGL"
+        // linkerOpts "-L/usr/lib/x86_64-linux-gnu -LCSFML-2.4-osx-clang/lib -lcsfml-graphics -lcsfml-audio -lcsfml-window -lcsfml-network -lcsfml-system -lGL"
     }
 }
 
