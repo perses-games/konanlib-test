@@ -20,7 +20,7 @@ fun main(args: Array<String>) {
     val helloKonan = Text(font, 50f, 50f, "Hello Konan!", 76, 0.toByte(), 255.toByte(), 255.toByte())
     val fpsDisplay = Text(font, 20f, 10f, "FPS: 0", 76, 0.toByte(), 255.toByte(), 0.toByte())
 
-    Music.play()
+    // Music.play()
 
     val window = Window("Test", 1024, 768, style = sfDefaultStyle)
 
@@ -77,7 +77,7 @@ fun main(args: Array<String>) {
         }
         window.close()
 
-        Cleanup.destroy()
     }
 
+    Cleanup.destroy()
 }
