@@ -16,7 +16,8 @@ class ShaderProgramMesh<T>(
   val shaderProgram: ShaderProgram<T>
 ) {
     val bufferSize = 20000 - (20000 % shaderProgram.drawLength)
-    val data : CValuesRef<FloatVar> = nativeHeap.allocArray<FloatVar>(bufferSize)
+    //val data : CValuesRef<FloatVar> = nativeHeap.allocArray<FloatVar>(bufferSize)
+    val data = nativeHeap.allocArray<FloatVar>(bufferSize)
     var currentIndex: Int = 0
     var attribBuffer: Int = 0
     var counter = 0
@@ -29,7 +30,7 @@ class ShaderProgramMesh<T>(
 
             attribBuffer = buffer.value
             glBindBuffer(GL_ARRAY_BUFFER, attribBuffer)
-            glBufferData(GL_ARRAY_BUFFER, (bufferSize * 4).toLong(), data.getPointer(nativeHeap), GL_DYNAMIC_DRAW)
+            glBufferData(GL_ARRAY_BUFFER, (bufferSize * 4).toLong(), data.getPointer(memScope), GL_DYNAMIC_DRAW)
             glBindBuffer(GL_ARRAY_BUFFER, 0)
         }
     }
@@ -37,7 +38,7 @@ class ShaderProgramMesh<T>(
 
     fun queue(vararg vertices: Float) {
         for (value in vertices) {
-            data.getPointer(nativeHeap)[currentIndex++] = value
+            data[currentIndex++] = value
         }
 
         if (bufferFull()) {
@@ -47,8 +48,8 @@ class ShaderProgramMesh<T>(
     }
 
     fun queueArray(vertices: Array<Float>) {
-        for (index in 0..vertices.size-1) {
-            data.getPointer(nativeHeap)[currentIndex++] = vertices[index]
+        for (index in 0..vertices.size - 1) {
+            data[currentIndex++] = vertices[index]
         }
 
         if (bufferFull()) {
@@ -70,7 +71,7 @@ class ShaderProgramMesh<T>(
 
             shaderProgram.begin(attribBuffer, userdata)
 
-            glBufferSubData(GL_ARRAY_BUFFER, 0, (currentIndex * 4).toLong(), data.getPointer(nativeHeap))
+            glBufferSubData(GL_ARRAY_BUFFER, 0, (currentIndex * 4).toLong(), data)
             // println("Draw arrays $currentIndex / ${shaderProgram.verticesBlockSize} = ${currentIndex / shaderProgram.verticesBlockSize}")
             glDrawArrays(shaderProgram.drawType, 0, (currentIndex / shaderProgram.verticesBlockSize))
             currentIndex = 0
@@ -80,6 +81,6 @@ class ShaderProgramMesh<T>(
     }
 
     fun destroy() {
-        nativeHeap.free(data.getPointer(nativeHeap).rawValue)
+        nativeHeap.free(data)
     }
 }

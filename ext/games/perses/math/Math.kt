@@ -1,5 +1,7 @@
 package games.perses.math
 
+import math.*;
+
 object Math {
 
     fun sin(angle: Double):Double = math.sin(angle)

@@ -6,10 +6,7 @@ import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.nativeHeap
 import kotlinx.cinterop.readValue
-import sfml.sfFloatRect
-import sfml.sfView
-import sfml.sfView_createFromRect
-import sfml.sfView_setViewport
+import sfml.*
 
 /**
  * Created by rnentjes on 16-4-17.
@@ -36,14 +33,14 @@ object View {
     var maxAspectRatio: Float = 1.1f
 
     val matrix = Matrix4()
-    var view: CPointer<sfView>
+    var view: CPointer<sfView>? = null
     val rect = nativeHeap.alloc<sfFloatRect>()
     val viewportRect = nativeHeap.alloc<sfFloatRect>()
 
       init {
           updateViewport()
 
-          view = sfView_createFromRect(rect.readValue()) ?: throw IllegalStateException("Unable to create view!")
+          // view = sfView_createFromRect(rect.readValue()) ?: throw IllegalStateException("Unable to create view!")
       }
 
     fun resize(width: Int, height: Int) {
@@ -52,7 +49,7 @@ object View {
 
         aspectRatio = windowWidth / windowHeight.toFloat()
 
-        println("RESIZED $aspectRatio -- $width, $height!")
+        //println("RESIZED $aspectRatio -- $width, $height!")
 
         if (aspectRatio < minAspectRatio) {
             aspectRatio = minAspectRatio
@@ -84,9 +81,9 @@ object View {
             }
         }
 
-        println("Set viewport to $aspectRatio -- $borderLeft, $borderTop, $windowWidth, $windowHeight (window: $width, $height)")
+        //println("Set viewport to $aspectRatio -- $borderLeft, $borderTop, $windowWidth, $windowHeight (window: $width, $height)")
         updateViewport()
-        println("Set matrix to $viewportWidth, $viewportHeight")
+        //println("Set matrix to $viewportWidth, $viewportHeight")
         matrix.setOrthographicProjection(-viewportWidth / 2f, viewportWidth / 2f, viewportHeight / 2f, -viewportHeight / 2f, -5f, 5f)
     }
 
@@ -114,6 +111,10 @@ object View {
         viewportRect.top = borderTop.toFloat() / windowHeight
         viewportRect.width = unitWidth.toFloat() / windowWidth
         viewportRect.height = unitHeight.toFloat() / windowHeight
+
+        view?.apply {
+            sfView_destroy(view)
+        }
 
         view = sfView_createFromRect(rect.readValue()) ?: throw IllegalStateException("Unable to create view!")
         sfView_setViewport(view, viewportRect.readValue())

@@ -2,14 +2,13 @@ package games.perses.sfml.shader
 
 import gles2.*
 import kotlinx.cinterop.*
+import kotlinx.cinterop.nativeHeap.alloc
 
 /**
  * User: rnentjes
  * Date: 14-4-17
  * Time: 17:21
  */
-
-class EmptyClass(override val rawPtr: NativePtr) : CPointed
 
 class ShaderProgram<T>(
   val drawType: Int,
@@ -77,7 +76,7 @@ class ShaderProgram<T>(
             val size = alloc<GLintVar>()
             size.value = source.length // assume ascii
 
-            src.value = source.cstr.getPointer(nativeHeap)
+            src.value = source.cstr.getPointer(memScope)
             glShaderSource(result, 1, src.ptr, size.ptr)
             glCompileShader(result)
 
@@ -96,17 +95,15 @@ class ShaderProgram<T>(
         glUseProgram(program)
         glBindBuffer(GL_ARRAY_BUFFER, attribBuffer)
 
-        memScoped {
-            // set attribute locations...
-            for (info in vainfo.iterator()) {
-                glEnableVertexAttribArray(info.location)
-                glVertexAttribPointer(info.location,
-                  info.numElements,
-                  GL_FLOAT,
-                  0.toByte(),
-                  verticesBlockSize * 4,
-                  (info.offset * 4L).toCPointer<CPointed>())
-            }
+        // set attribute locations...
+        for (info in vainfo.iterator()) {
+            glEnableVertexAttribArray(info.location)
+            glVertexAttribPointer(info.location,
+              info.numElements,
+              GL_FLOAT,
+              0.toByte(),
+              verticesBlockSize * 4,
+              (info.offset * 4L).toCPointer<CPointed>())
         }
 
         setter(this, userdata)
