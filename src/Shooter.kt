@@ -20,19 +20,20 @@ fun main(args: Array<String>) {
     val helloKonan = Text(font, 50f, 50f, "Hello Konan!", 76, 0.toByte(), 255.toByte(), 255.toByte())
     val fpsDisplay = Text(font, 20f, 10f, "FPS: 0", 76, 0.toByte(), 255.toByte(), 0.toByte())
 
-    // Music.play()
+    Music.play()
 
     val window = Window("Test", 1024, 768, style = sfDefaultStyle)
 
     Cleanup.add {
         window.destroy()
 
+        fpsDisplay.destroy()
         helloKonan.destroy()
         font.destroy()
     }
 
     window.setClearColor(10, 50, 100)
-    window.enableVerticalSync()
+    //window.enableVerticalSync()
 
     if (window.isOpen()) {
         val smiley = Textures.getOrLoad("data/img/smiley.png")
