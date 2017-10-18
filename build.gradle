@@ -21,7 +21,7 @@ konanArtifacts {
         library project.file('klib/konanlib.klib')
 
         // enableAssertions()
-        enableDebug()
+        // enableDebug()
         // enableOptimization()
 
     }

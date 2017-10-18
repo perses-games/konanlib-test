@@ -1,9 +1,7 @@
+
 import games.perses.math.Math
 import games.perses.rand.Rand
-import games.perses.sfml.Cleanup
-import games.perses.sfml.Events
-import games.perses.sfml.View
-import games.perses.sfml.Window
+import games.perses.sfml.*
 import games.perses.sfml.music.Music
 import games.perses.sfml.sprite.Sprite
 import games.perses.sfml.text.Font
@@ -27,7 +25,7 @@ fun main(args: Array<String>) {
 
     // Music.play()
 
-    val window = Window("Test", 1024, 768, style = 7)
+    val window = Window("Test", 1024, 768, style = WindowStyle.DEFAULT.value)
 
     window.setClearColor(10, 50, 100)
     //window.enableVerticalSync()
