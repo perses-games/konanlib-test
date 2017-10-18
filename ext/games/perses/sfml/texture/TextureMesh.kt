@@ -9,10 +9,11 @@ import games.perses.sfml.shader.VertextAttributeInfo
 import gles2.GL_TEXTURE0
 import gles2.GL_TRIANGLES
 import gles2.glActiveTexture
-import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.CValue
 import kotlinx.cinterop.useContents
 import sfml.*
+import cnames.structs.sfTexture
+import kotlinx.cinterop.CPointer
 
 /**
  * User: rnentjes

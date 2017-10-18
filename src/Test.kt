@@ -10,7 +10,6 @@ import games.perses.sfml.text.Font
 import games.perses.sfml.text.Text
 import games.perses.sfml.texture.Textures
 import games.perses.sfml.time.Timer
-import sfml.sfDefaultStyle
 
 fun main(args: Array<String>) {
 
@@ -20,17 +19,15 @@ fun main(args: Array<String>) {
     val helloKonan = Text(font, 50f, 50f, "Hello Konan!", 76, 0.toByte(), 255.toByte(), 255.toByte())
     val fpsDisplay = Text(font, 20f, 10f, "FPS: 0", 76, 0.toByte(), 255.toByte(), 0.toByte())
 
-    // Music.play()
-
-    val window = Window("Test", 1024, 768, style = sfDefaultStyle)
-
     Cleanup.add {
-        window.destroy()
-
         fpsDisplay.destroy()
         helloKonan.destroy()
         font.destroy()
     }
+
+    // Music.play()
+
+    val window = Window("Test", 1024, 768, style = 7)
 
     window.setClearColor(10, 50, 100)
     //window.enableVerticalSync()
@@ -50,7 +47,7 @@ fun main(args: Array<String>) {
         }
 
         while (Events.running) {
-            window.pollEvents(Events::handleEvent)
+            window.pollEvents()
             window.clear()
 
             View.updateViewport()
